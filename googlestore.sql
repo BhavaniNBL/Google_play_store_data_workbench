@@ -80,10 +80,9 @@ SET
  --  Varies with device or blank as NULL
  -- Replace NaN and Varies with device with NULL in AndroidVer
 AndroidVer = CASE 
-               WHEN LOWER(REPLACE(REPLACE(REPLACE(TRIM(@AndroidVer), '\r', ''), '\n', ''), ' ', '')) = 'varieswithdevice'
-                 OR TRIM(@AndroidVer) = ''
-               THEN NULL
-               ELSE TRIM(@AndroidVer)
+               WHEN TRIM(LOWER(@AndroidVer)) IN ('', 'nan', 'varies with device') 
+               THEN NULL 
+               ELSE TRIM(@AndroidVer) 
              END;
 
                   
