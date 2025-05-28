@@ -169,6 +169,37 @@ FROM googleplaystore_typed
 GROUP BY ContentRating;
 
 
+-- Common Table Expression (CTE) with DENSE_RANK to dislay top rated apps per category
+WITH RankedApps AS (
+  SELECT 
+    App,
+    Category,
+    Rating,
+    DENSE_RANK() OVER (PARTITION BY Category ORDER BY Rating DESC) AS rating_rank
+  FROM 
+    googleplaystore_typed
+  WHERE Rating IS NOT NULL
+)
+SELECT *
+FROM RankedApps
+ORDER BY Category;
+
+
+-- most reviewed apps per genre with RANK()
+WITH GenreReviewRank AS (
+  SELECT 
+    App,
+    Genres,
+    Reviews,
+    RANK() OVER (PARTITION BY Genres ORDER BY Reviews DESC) AS review_rank
+  FROM 
+    googleplaystore_typed
+)
+SELECT *
+FROM GenreReviewRank
+WHERE review_rank <= 3;
+
+
 
 
 
