@@ -17,7 +17,6 @@ CREATE TABLE loan_data (
     not_fully_paid INT
 );
 
-
 -- calculate_new_rate function 
 
 DELIMITER $$
